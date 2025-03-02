@@ -1,0 +1,23 @@
+@if(brandDetails){
+<section
+  class="mx-auto w-3/4 bg-[rgba(247,211,211,0.5)] rounded shadow p-4 z-20 sticky top-0"
+>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+    <div class="md:col-span-1">
+      <div>
+        <img
+          class="w-full rounded"
+          [src]="brandDetails.image"
+          [alt]="brandDetails.name"
+        />
+      </div>
+    </div>
+    <div class="md:col-span-2">
+      <div>
+        <h3 class="text-3xl font-thin capitalize">{{ brandDetails.name }}</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+}

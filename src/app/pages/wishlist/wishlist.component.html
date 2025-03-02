@@ -1,0 +1,65 @@
+<section class="z-20 sticky">
+  @if(wishList.length>0){
+  <div
+    class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-5 gap-y-10"
+  >
+    @for (prod of wishList; track $index) {
+    <div class="card bg-white rounded-md overflow-hidden shadow relative">
+      <div
+        class="absolute top-2 right-2 z-10 cursor-pointer"
+        (click)="removeProductFromWish(prod.id)"
+      >
+        <i class="icon fa-solid fa-heart-broken text-[#D19C97] text-2xl"></i>
+      </div>
+
+      <div [routerLink]="['/details', prod.id]">
+        <div class="card-img">
+          <img
+            [src]="prod.imageCover"
+            [alt]="prod.title"
+            class="w-full h-[250px] object-contain"
+          />
+        </div>
+        <div class="card-body px-2 py-4 bg-white">
+          <!-- Use the safe navigation operator to avoid errors if category is undefined -->
+          <h4 class="text-[#5c3d3b] text-xs">{{ prod.category.name }}</h4>
+          <h3 class="font-medium">
+            {{ prod.title | termtext : 2 }}
+          </h3>
+          <div class="flex justify-between items-center">
+            <span>{{ prod.price }} EGP</span>
+            <div class="flex items-center">
+              <i class="fas fa-star text-[#D19C97] pe-2"></i>
+              <span class="text-gray-500">{{ prod.ratingsAverage }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-100 py-2 bg-[#D19C97] text-center text-[20px] text-white icon"
+        (click)="addToCart(prod.id)"
+      >
+        <i class="cart fa-solid fa-cart-arrow-down cart-icon"></i>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <section class="z-20 sticky pb-32">
+    <div class="grid grid-cols-1 items-center gap-0">
+      <div class="flex justify-center m-0 p-0">
+        <img
+          src="/images/1739940055190.png"
+          class="w-50 object-contain"
+          alt="emptycart"
+        />
+      </div>
+      <div class="text-center m-0 p-0">
+        <h1 class="text-3xl md:text-6xl font-bold text-[#D19C97]">
+          Your WishList Is Empty
+        </h1>
+      </div>
+    </div>
+  </section>
+  }
+</section>

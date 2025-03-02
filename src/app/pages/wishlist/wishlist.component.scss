@@ -1,0 +1,28 @@
+
+.card{
+    transition: all .5s ease-in-out;
+    
+    &:hover{
+        transform: scale(1.05);
+       
+        border: 1px solid rgba(134, 89, 85, 0.5);
+    }
+    .icon{
+        transform: translateY(100%);
+        transition:1s all;
+        cursor: pointer;
+        opacity: 0;
+    }
+    .cart-icon{
+        display: inline-block;
+        transition: transform 0.5s ease-in-out
+    }
+    
+   &:hover .icon{
+    transform: translateY(0);
+    opacity: 1;
+}
+.icon:hover .cart-icon{
+    transform: rotate(360deg)
+}
+}

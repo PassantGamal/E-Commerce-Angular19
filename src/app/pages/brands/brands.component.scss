@@ -1,0 +1,27 @@
+.brand{
+    border: 1px solid rgba(134, 89, 85, 0.5);
+}
+::ng-deep .pagination {
+    position: relative;
+    bottom: -30px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+   
+    padding: 10px;
+    
+    border-radius: 10px;
+    
+  }
+  
+  ::ng-deep .pagination a {
+    padding: 10px;
+    background: #d19c97;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  ::ng-deep .pagination .current {
+    background: #5c3d3b !important;
+  }
+  

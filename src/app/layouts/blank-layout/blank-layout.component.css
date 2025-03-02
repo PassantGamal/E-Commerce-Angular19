@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+body {
+  background: radial-gradient(circle, rgba(209, 156, 151, 0.3) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+
+.overlay {
+  position: fixed; /* Fixed to cover entire screen */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensure full width */
+  height: 100vh; /* Full viewport height */
+  background: radial-gradient(circle, rgba(209, 156, 151, 0.3) 0%, rgba(255, 255, 255, 0.8) 100%);
+}/*# sourceMappingURL=blank-layout.component.css.map */

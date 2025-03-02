@@ -1,0 +1,26 @@
+.move{
+.icon{
+  transform: translateY(100%);
+  transition:1s all;
+  cursor: pointer;
+
+}
+.cart-icon{
+  display: inline-block;
+  transition: all 0.5s ease-in-out
+}
+
+
+.cart-icon:hover>.icon{
+transform: translateY(0);
+}
+.icon:hover .cart-icon{
+  color: white;
+transform: rotate(360deg)
+}}
+.shadow-custom {
+  box-shadow: 0 0 10px rgba(163, 105, 100, 0.5);
+}
+.carousel{
+  z-index: 0 !important;
+}

@@ -1,0 +1,17 @@
+@keyframes moveUpDown {
+    0% ,100%{
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px); // Moves up
+    }
+  }
+  .e-span{
+  display: inline-block;
+  animation: moveUpDown 1s infinite ease-in-out;
+  }
+  nav{
+    transition: all 1s;
+
+    
+  }

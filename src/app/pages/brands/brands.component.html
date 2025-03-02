@@ -1,0 +1,23 @@
+<section class="z-20 sticky p-4 md:p-0">
+  <div
+    class="bg-transparent grid md:grid-cols-4 grid-cols-1 sm:grid-cols-3 gap-2"
+  >
+    @for (brand of allBrands |paginate: { itemsPerPage:8 , currentPage: p };
+    track $index) {
+
+    <div class="brand rounded" [routerLink]="['/BrandsDetails', brand._id]">
+      <img
+        [src]="brand.image"
+        class="w-full md:h-[270px] sm:h-[270px] h-[350px]"
+        [alt]="brand.name"
+      />
+      <h3 class="text-[#5c3d3b] p-3 text-2xl bg-white">{{ brand.name }}</h3>
+    </div>
+
+    }
+  </div>
+  <pagination-controls
+    class="pagination"
+    (pageChange)="p = $event"
+  ></pagination-controls>
+</section>

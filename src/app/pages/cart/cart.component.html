@@ -1,0 +1,204 @@
+@if(cartDetails.totalCartPrice){
+<section class="z-20 mt-10 sticky bg-white p-5">
+  <div class="container mx-auto pt-2 px-4 lg:px-8">
+    <div class="flex justify-end pb-5">
+      <button
+        (click)="deleteAllCart()"
+        class="bg-[#D19C97] text-black hover:text-white transition-all px-2 py-1 rounded"
+      >
+        Clear Cart
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+    <div
+      class="flex flex-wrap lg:flex-nowrap space-y-5 lg:space-y-0 lg:space-x-5"
+    >
+      <div class="w-full lg:w-2/3">
+        <div class="overflow-hidden rounded-lg">
+          <table
+            class="hidden lg:table table-auto border-collapse border-gray-300 w-full text-center text-sm"
+          >
+            <thead class="bg-[#EDF1FF] text-black">
+              <tr>
+                <th class="border border-gray-300 px-4 py-2">Products</th>
+                <th class="border border-gray-300 px-4 py-2">Price</th>
+                <th class="border border-gray-300 px-4 py-2">Quantity</th>
+                <th class="border border-gray-300 px-4 py-2">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (prod of cartDetails.products; track prod.product.id) {
+              <tr>
+                <td
+                  class="border border-gray-300 px-4 py-2 flex items-center justify-center"
+                >
+                  <img
+                    [src]="prod.product.imageCover"
+                    [alt]="prod.product.title"
+                    class="w-14 h-14 mr-2"
+                  />
+                  {{ prod.product.title.slice(0, 12) }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  {{ prod.price }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  <div class="flex items-center justify-center">
+                    <button
+                      class="bg-[#D19C97] text-black hover:text-white transition-all px-2 py-2"
+                      (click)="updateCount(prod.product.id, prod.count - 1)"
+                    >
+                      <i class="fa fa-minus"></i>
+                    </button>
+                    <div
+                      class="text-center outline-none focus:outline-none focus:ring-transparent focus:border-none border-none p-2 w-8 bg-gray-200"
+                    >
+                      {{ prod.count }}
+                    </div>
+                    <button
+                      class="bg-[#D19C97] text-black hover:text-white px-2 transition-all py-2"
+                      (click)="updateCount(prod.product.id, prod.count + 1)"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </td>
+
+                <td class="border border-gray-300 px-4 py-2">
+                  <button
+                    class="bg-[#D19C97] text-black hover:text-white transition-all px-2 py-1 rounded"
+                  >
+                    <i
+                      class="fa fa-times"
+                      (click)="removeCartItem(prod.product.id)"
+                    ></i>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+
+          <div class="lg:hidden">
+            @for (prod of cartDetails.products; track prod.product.id) {
+            <div class="border border-gray-300 p-4 mb-4 rounded">
+              <div class="flex items-center">
+                <img
+                  [src]="prod.product.imageCover"
+                  [alt]="prod.product.title"
+                  class="w-14 h-14 mr-4"
+                />
+                <span class="font-semibold">{{
+                  prod.product.title.slice(0, 12)
+                }}</span>
+              </div>
+              <div class="mt-2">
+                <div class="flex justify-between">
+                  <span class="font-medium">Price:</span>
+                  <span>{{ prod.price }}</span>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                  <span class="font-medium">Quantity:</span>
+                  <div class="flex items-center justify-center">
+                    <button
+                      class="bg-[#D19C97] text-black hover:text-white transition-all px-2 py-2"
+                      (click)="updateCount(prod.product.id, prod.count - 1)"
+                    >
+                      <i class="fa fa-minus"></i>
+                    </button>
+                    <div
+                      class="text-center outline-none focus:outline-none focus:ring-transparent focus:border-none border-none p-2 w-8 bg-gray-200"
+                    >
+                      {{ prod.count }}
+                    </div>
+                    <button
+                      class="bg-[#D19C97] text-black hover:text-white px-2 transition-all py-2"
+                      (click)="updateCount(prod.product.id, prod.count + 1)"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="flex justify-end mt-2">
+                  <button
+                    class="bg-[#D19C97] text-black hover:text-white transition-all px-4 py-2 rounded"
+                  >
+                    <i
+                      class="fa fa-times"
+                      (click)="removeCartItem(prod.product.id)"
+                    ></i>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full lg:w-1/3">
+        <div class="border border-gray-300 rounded-md">
+          <div
+            class="bg-[#EDF1FF] p-4 text-black text-center text-xl rounded-t-md"
+          >
+            <h4 class="font-semibold">Cart Summary</h4>
+          </div>
+
+          <div class="border-t border-gray-300 p-4">
+            <div class="flex justify-between">
+              <h5 class="font-bold">Total</h5>
+              <h5 class="font-bold">
+                {{ cartDetails.totalCartPrice | currency : "GBP" }}
+              </h5>
+            </div>
+            <button
+              class="bg-[#D19C97] text-center text-black p-2 mt-5 hover:text-white w-full rounded flex items-center justify-center space-x-2"
+              [routerLink]="['/checkout', cartDetails._id]"
+              [queryParams]="{ payment: 'visa' }"
+            >
+              <span>Proceed To Checkout By Visa</span>
+              <img
+                src="/images/visa.png"
+                alt="visa"
+                class="w-[40px] h-[33px] bg-white"
+              />
+            </button>
+            <button
+              class="bg-[#D19C97] text-center text-black p-2 mt-5 hover:text-white w-full rounded flex items-center justify-center space-x-2"
+              [routerLink]="['/checkout', cartDetails._id]"
+              [queryParams]="{ payment: 'cash' }"
+            >
+              <span>Proceed To Checkout Cash</span>
+              <img
+                src="/images/cash.png"
+                alt="visa"
+                class="w-[40px] h-[33px] bg-white"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+} @else {
+<section class="z-20 sticky pb-32">
+  <div class="grid grid-cols-1 items-center gap-0">
+    <div class="flex justify-center m-0 p-0">
+      <img
+        src="/images/1739940055190.png"
+        class="w-50 object-contain"
+        alt="emptycart"
+      />
+    </div>
+    <div class="text-center m-0 p-0">
+      <h1 class="text-3xl md:text-6xl font-bold text-[#D19C97]">
+        Your Cart Is Empty
+      </h1>
+    </div>
+  </div>
+</section>
+
+}

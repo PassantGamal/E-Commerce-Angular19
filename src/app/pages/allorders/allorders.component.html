@@ -1,0 +1,145 @@
+@if(cartOrdered){
+<section class="z-20 sticky">
+  <section class="z-20 mt-10 sticky bg-white p-5">
+    <div class="text-center">
+      <h1 class="text-3xl font-semibold">All Orders</h1>
+    </div>
+    <div class="container mx-auto pt-10 px-4 lg:px-10">
+      <div
+        class="flex flex-wrap lg:flex-nowrap space-y-5 lg:space-y-0 lg:space-x-5"
+      >
+        <div class="w-full lg:w-2/3">
+          <div class="overflow-hidden rounded-lg">
+            <table
+              class="hidden lg:table table-auto border-collapse border-gray-300 w-full text-center text-sm"
+            >
+              <thead class="bg-[#EDF1FF] text-black text-xl">
+                <tr>
+                  <th class="border font-semibold border-gray-300 px-4 py-2">
+                    Products
+                  </th>
+                  <th class="border font-semibold border-gray-300 px-4 py-2">
+                    Details
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of cartOrdered; track $index) { @for(subitem of
+                item.cartItems;track $index){
+                <tr class="border border-gray-300">
+                  <td class="px-2 py-2 flex items-center justify-center">
+                    <img
+                      [src]="subitem.product.imageCover"
+                      [alt]="subitem.product.title"
+                      class="w-20 h-20"
+                    />
+                  </td>
+                  <td class="border border-gray-300 px-4 py-2">
+                    <div class="text-lg font-semibold">
+                      {{ subitem.product.title.slice(0, 12) }}
+                    </div>
+                    <div class="text-lg font-bold">
+                      price:<span class="text-sm font-semibold"
+                        >{{ subitem.price | currency : "GBP" }}
+                      </span>
+                    </div>
+                    <div class="text-lg font-bold">
+                      count:<span class="text-sm font-semibold">{{
+                        subitem.count
+                      }}</span>
+                    </div>
+                  </td>
+                </tr>
+
+                }}
+              </tbody>
+            </table>
+
+            <div class="lg:hidden">
+              @for (item of cartOrdered; track $index) { @for(subitem of
+              item.cartItems;track $index){
+              <div class="border border-gray-300 p-4 mb-4 rounded">
+                <div class="flex items-center">
+                  <img
+                    [src]="subitem.product.imageCover"
+                    [alt]="subitem.product.title"
+                    class="w-14 h-14 mr-4"
+                  />
+                  <span class="font-semibold"></span>
+                </div>
+                <div class="mt-2">
+                  <div class="flex justify-between">
+                    <span class="font-medium">{{
+                      subitem.product.title.slice(0, 12)
+                    }}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="font-medium">Count:</span>
+                    <span>{{ subitem.count }}</span>
+                  </div>
+                  <div class="flex justify-between items-center mt-2">
+                    <span class="font-bold">Price:</span>
+                    <span>{{ subitem.price }}</span>
+                  </div>
+                </div>
+              </div>
+              }}
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full lg:w-1/3">
+          <div class="border border-gray-300 rounded-md">
+            <div
+              class="bg-[#EDF1FF] p-4 text-black text-center rounded-t-md text-xl"
+            >
+              <h4 class="font-semibold">Cart Summary</h4>
+            </div>
+
+            <div class="border-t border-gray-300 p-4">
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold">Order</h5>
+
+                <span class="font-semibold p-1">{{ orderNumber }}</span>
+              </div>
+              <hr />
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold">Total</h5>
+
+                <span class="font-semibold p-1">{{ totalCartOrder }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold">Is Delivered</h5>
+
+                <span
+                  class="font-sans text-white p-1 rounded"
+                  [class.bg-red-700]="!isDelivered"
+                  >{{ isDelivered }}</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold">Is Paid</h5>
+
+                <span
+                  class="font-sans text-white p-1 mt-1 rounded"
+                  [class]="{
+                    'bg-green-500': isPaid === true,
+                    'bg-red-700': isPaid === false
+                  }"
+                  >{{ isPaid }}</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold">Payment Method Type</h5>
+
+                <span class="font-semibold">{{ paymentMethodType }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+}

@@ -1,0 +1,18 @@
+<section class="z-20 sticky p-4 md:p-0">
+  <div
+    class="bg-transparent text-center grid md:grid-cols-5 grid-cols-1 sm:grid-cols-3 gap-2"
+  >
+    @for (cat of categories; track $index) {
+
+    <div class="cat rounded" [routerLink]="['/CategoriesDetails', cat._id]">
+      <img
+        [src]="cat.image"
+        class="w-full md:h-[270px] sm:h-[270px] h-[350px]"
+        [alt]="cat.name"
+      />
+      <h3 class="text-[#5c3d3b] p-2">{{ cat.name }}</h3>
+    </div>
+
+    }
+  </div>
+</section>

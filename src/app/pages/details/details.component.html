@@ -1,0 +1,64 @@
+@if (productDetails) {
+<section>
+  <div class="grid grid-cols-1 md:grid-cols-3 m-auto bg-white space-y-5">
+    <div class="md:col-span-1 md:p-16 p-8 mt-0 z-10">
+      <div class="shadow-custom rounded">
+        <div>
+          <img
+            [src]="imgsrc"
+            alt="Product Image"
+            class="w-full md:h-[300px] rounded"
+          />
+          <div class="carousel">
+            <owl-carousel-o [options]="customOptions">
+              @for (det of productDetails.images; track $index) {
+              <ng-template carouselSlide>
+                <div class="bg-transparent text-center">
+                  <img
+                    [src]="det"
+                    (click)="imgs(det)"
+                    class="w-16 h-[80px]"
+                    alt="{{ productDetails.title }}"
+                  />
+                </div>
+              </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="move p-10 md:pt-24 z-10 md:col-span-2">
+      <div class="flex flex-col justify-end align-middle space-y-1">
+        <h1 class="text-2xl font-bold text-black">
+          {{ productDetails.title }}
+        </h1>
+        <h2 class="text-lg">{{ productDetails.category.name }}</h2>
+        <div class="text-[#D19C97]">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-regular fa-star-half-stroke"></i>
+          <i class="fa-regular fa-star"></i>
+          <span class="ps-2 text-sm md:text-lg text-gray-500"
+            >({{ productDetails.ratingsAverage }} Reviews)</span
+          >
+        </div>
+        <span class="text-2xl font-bold text-black"
+          >{{ productDetails.price }} $</span
+        >
+        <h2 class="font-semibold">{{ productDetails.brand.name }}</h2>
+        <p class="text-muted leading-relaxed">
+          {{ productDetails.description }}
+        </p>
+        <div
+          (click)="addToCart(productDetails.id)"
+          class="w-100 py-2 mt-5 bg-[#D19C97] text-center text-[20px] text-black icon rounded"
+        >
+          <i class="fa-solid fa-cart-arrow-down cart-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+}

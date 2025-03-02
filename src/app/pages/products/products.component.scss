@@ -1,0 +1,93 @@
+$color_1: #595959;
+.card{
+    transition: all .5s ease-in-out;
+    
+    &:hover{
+        transform: scale(1.05);
+       
+        border: 1px solid rgba(134, 89, 85, 0.5);
+    }
+    .icon{
+        transform: translateY(100%);
+        transition:1s all;
+        cursor: pointer;
+        opacity: 0;
+    }
+    .cart-icon{
+        display: inline-block;
+        transition: transform 0.5s ease-in-out
+    }
+    
+   &:hover .icon{
+    transform: translateY(0);
+    opacity: 1;
+}
+.icon:hover .cart-icon{
+    transform: rotate(360deg)
+}
+}
+.carousel{
+    z-index: 0 !important;
+}
+
+.field {
+	height: 50px;
+	width: 100%;
+	display: flex;
+	position: relative;
+	margin-bottom: 10px;
+    z-index: 20;
+	input {
+		height: 100%;
+		padding-left: 20px;
+		outline: none;
+		border: none;
+		font-size: 18px;
+		background: rgba(221, 225, 231,.2);
+		color: $color_1;
+		border-radius: 25px;
+		box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #ffffff73;
+		&:focus {
+			box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #ffffff73;
+		}
+		
+	}
+	@media (min-width:200px) {
+        input{
+            width: 100%;
+        }
+    }
+	@media (min-width:700px) {
+        input{
+            width: 50%;
+        }
+    }
+}
+.title{
+    z-index: 20;
+}
+::ng-deep .pagination {
+    position: relative;
+    bottom: -30px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+   
+    padding: 10px;
+    
+    border-radius: 10px;
+   
+  }
+  
+  ::ng-deep .pagination a {
+    padding: 10px;
+    background: #d19c97;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  ::ng-deep .pagination .current {
+    background: #5c3d3b !important;
+  }
+  
+  

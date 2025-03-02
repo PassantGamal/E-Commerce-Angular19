@@ -1,0 +1,21 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+body{
+    background: radial-gradient(circle, rgba(209,156,151,0.3) 0%, rgba(255,255,255,0.8) 100%) !important;
+}
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100vh; 
+    background: radial-gradient(circle, rgba(209,156,151,0.3) 0%, rgba(255,255,255,0.8) 100%);
+  
+}
+
+  
+  

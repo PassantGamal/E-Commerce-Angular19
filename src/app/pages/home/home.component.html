@@ -1,0 +1,94 @@
+<app-slider></app-slider>
+<section>
+  <h2 class="md:text-3xl text-xl text-center md:text-start z-20 relative">
+    Popular Categories
+  </h2>
+  <div class="rounded bg-transparent p-2 carousel">
+    <owl-carousel-o [options]="customOptions">
+      @for (cat of categories; track $index) {
+      <ng-template carouselSlide>
+        <div class="bg-transparent text-center">
+          <img
+            [src]="cat.image"
+            class="md:w-full md:h-[270px] h-[200px] rounded"
+            alt=""
+          />
+          <h3 class="text-[#5c3d3b]">{{ cat.name }}</h3>
+        </div>
+      </ng-template>
+      }
+    </owl-carousel-o>
+  </div>
+</section>
+<section class="p-7">
+  <h2
+    class="md:text-3xl title text-xl text-center md:text-start mb-5 relative z-20"
+  >
+    Popular Products
+  </h2>
+  <div class="field mb-5">
+    <input
+      [(ngModel)]="text"
+      type="search"
+      placeholder="Search By Name...."
+      class="mx-auto"
+    />
+  </div>
+
+  <div class="mt-10">
+    <div
+      class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-5 gap-y-10"
+    >
+      @for (product of products.slice(0,12) | search :text; track product.id) {
+      <div class="card bg-white rounded-md overflow-hidden shadow relative">
+        @if(!wishList.includes(product.id)){
+        <div
+          class="absolute top-2 right-2 z-10 cursor-pointer"
+          (click)="addProductToWishs(product.id)"
+        >
+          <i class="icon fa-solid fa-heart text-[#D19C97] text-2xl"></i>
+        </div>
+        } @else {
+        <div
+          class="absolute top-2 right-2 z-10 cursor-pointer"
+          (click)="removeProductFromWish(product.id)"
+        >
+          <i class="icon fa-solid fa-heart-broken text-[#D19C97] text-2xl"></i>
+        </div>
+
+        }
+        <div [routerLink]="['/details', product.id]">
+          <div class="card-img">
+            <img
+              [src]="product.imageCover"
+              [alt]="product.title"
+              class="w-full h-[250px] object-contain"
+            />
+          </div>
+          <div class="card-body px-2 py-4 bg-white">
+            <h4 class="text-[#5c3d3b] text-xs">{{ product.category.name }}</h4>
+            <h3 class="font-medium">
+              {{ product.title | termtext : 2 }}
+            </h3>
+            <div class="flex justify-between items-center">
+              <span>{{ product.price }} EGP</span>
+              <div class="flex items-center">
+                <i class="fas fa-star text-[#D19C97] pe-2"></i>
+                <span class="text-gray-500">{{ product.ratingsAverage }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-100 flex">
+          <div
+            class="flex-1 py-2 bg-[#D19C97] text-center text-[20px] text-white icon"
+            (click)="addToCart(product.id)"
+          >
+            <i class="fa-solid fa-cart-arrow-down cart-icon"></i>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>
