@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,18 +7,23 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { take } from 'rxjs';
+
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  isError: string = '';
-  isSuccess: string = '';
-  isLoading: boolean = false;
+  isError: WritableSignal<string> = signal('');
+  isSuccess: WritableSignal<string> = signal('');
+  isLoading: WritableSignal<boolean> = signal(false);
+
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+
   login: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [
@@ -26,35 +31,36 @@ export class LoginComponent {
       Validators.pattern(/^\w{6,}$/),
     ]),
   });
+
   submitForm(): void {
-    console.log(this.login);
     if (this.login.valid) {
-      this.isLoading = true;
+      this.isLoading.set(true);
       this.authService.sendLoginForm(this.login.value).subscribe({
         next: (res) => {
           if (res.message === 'success') {
             localStorage.setItem('userToken', res.token);
             this.authService.saveUserData();
-            this.isSuccess = res.message;
-            this.isLoading = false;
-            this.isError = '';
+            this.isSuccess.set(res.message);
+            this.isError.set('');
+            this.isLoading.set(false);
             setTimeout(() => {
               this.router.navigate(['/home']);
             }, 500);
           }
         },
         error: (err) => {
-          this.isError = err.error.message;
-          this.login.statusChanges.subscribe((status) => {
-            this.isLoading = status === 'INVALID';
-            this.isError = '';
+          this.isError.set(err.error.message);
+          this.isSuccess.set('');
+          this.isLoading.set(false);
+
+          this.login.statusChanges.pipe(take(1)).subscribe((status) => {
+            this.isLoading.set(status === 'INVALID');
+            this.isError.set('');
           });
-          this.isSuccess = '';
-          this.isLoading = true;
         },
       });
     } else {
-      this.login?.setErrors({ mismatch: true });
+      this.login.setErrors({ mismatch: true });
       this.login.markAllAsTouched();
     }
   }

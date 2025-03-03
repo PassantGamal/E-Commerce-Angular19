@@ -33,8 +33,6 @@ export class AllordersComponent implements OnInit {
   getUserOrder(): void {
     this._OrderService.AllOrders(this.cartsId).subscribe({
       next: (res) => {
-        console.log(res);
-
         this.cartOrdered = res;
         for (let item of res) {
           this.orderNumber += 1;

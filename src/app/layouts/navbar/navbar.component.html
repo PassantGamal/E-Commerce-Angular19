@@ -38,7 +38,7 @@
       class="hidden w-full flex-grow pt-2 ps-2 md:flex md:w-auto"
       id="navbar-default"
     >
-      @if(isLogin()){
+      @if(isLogin){
       <ul
         class="text-lg capitalize flex flex-col md:p-0 bg-[#EDF1FF] md:flex-row md:space-x-0 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#EDF1FF] dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
       >
@@ -93,7 +93,7 @@
       <ul
         class="font-weight-bold ms-auto text-lg capitalize flex flex-col md:p-0 rounded-lg bg-[#EDF1FF] md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#EDF1FF] dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
       >
-        @if(! isLogin()){
+        @if(! isLogin){
         <li>
           <a
             routerLink="/login"
@@ -125,7 +125,7 @@
             <span
               class="absolute top-[8px] start-[7px] w-4 h-4 text-[10px] flex items-center justify-center text-white font-medium rounded-full md:w-5 md:h-5 md:text-xs md:top-1/2 md:start-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
             >
-              {{ wishNumber }}
+              {{ wishNumber() }}
             </span>
           </a>
         </li>
@@ -140,7 +140,7 @@
             <span
               class="absolute -top-1 start-0 bg-[#977370] text-white text-xs font-medium rounded-full w-5 h-4 flex items-center justify-center"
             >
-              {{ countNumber }}
+              {{ countNumber() }}
             </span>
           </a>
         </li>

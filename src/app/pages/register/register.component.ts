@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  ValidatorFn,
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -20,9 +20,11 @@ export class RegisterComponent {
   private readonly authServices = inject(AuthService);
   private readonly router = inject(Router);
   private readonly _FormBuilder = inject(FormBuilder);
-  isLoading: boolean = false;
-  isSuccess: string = '';
-  msgErorr: string = '';
+
+  isLoading: WritableSignal<boolean> = signal(false);
+  isSuccess: WritableSignal<string> = signal('');
+  msgErorr: WritableSignal<string> = signal('');
+
   register: FormGroup = this._FormBuilder.group(
     {
       name: [
@@ -41,38 +43,37 @@ export class RegisterComponent {
         [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)],
       ],
     },
-    { validators: this.confirmPassword }
+    { validators: this.confirmPasswordValidator() }
   );
 
-  confirmPassword(group: AbstractControl) {
-    const password = group.get('password')?.value;
-    const repassword = group.get('rePassword')?.value;
-    return password === repassword ? null : { mismatch: true };
+  confirmPasswordValidator(): ValidatorFn {
+    return (group: AbstractControl) => {
+      const password = group.get('password')?.value;
+      const repassword = group.get('rePassword')?.value;
+      return password === repassword ? null : { mismatch: true };
+    };
   }
+
   submitForm(): void {
     if (this.register.valid) {
-      this.isLoading = true;
+      this.isLoading.set(true);
       this.authServices.sendRegisterForm(this.register.value).subscribe({
         next: (res) => {
           if (res.message === 'success') {
             setTimeout(() => {
               localStorage.setItem('userToken', res.token);
-
               this.authServices.saveUserData();
               this.router.navigate(['/login']);
             }, 500);
-            this.isLoading = false;
-            this.isSuccess = res.message;
-            this.msgErorr = '';
+            this.isLoading.set(false);
+            this.isSuccess.set(res.message);
+            this.msgErorr.set('');
           }
         },
         error: (err) => {
-          this.isSuccess = '';
-          this.msgErorr = err.error.message;
-          this.register.statusChanges.subscribe((status) => {
-            this.isLoading = status === 'INVALID';
-            this.msgErorr = '';
-          });
+          this.isSuccess.set('');
+          this.msgErorr.set(err.error.message);
+          this.isLoading.set(false);
         },
       });
     } else {

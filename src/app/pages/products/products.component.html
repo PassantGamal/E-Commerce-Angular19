@@ -12,10 +12,10 @@
     <div
       class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-5 gap-y-10"
     >
-      @for (product of allProducts | search:text| paginate: { itemsPerPage:12 ,
-      currentPage: p } ; track product.id) {
+      @for (product of allProducts() | search:text()| paginate: {
+      itemsPerPage:12 , currentPage: p() } ; track product.id) {
       <div class="card bg-white rounded-md overflow-hidden shadow relative">
-        @if(!wishList.includes(product.id)){
+        @if(!wishList().includes(product.id)){
         <div
           class="absolute top-2 right-2 z-10 cursor-pointer"
           (click)="addProductToWishs(product.id)"
@@ -66,7 +66,7 @@
     </div>
     <pagination-controls
       class="pagination"
-      (pageChange)="p = $event"
+      (pageChange)="p.set($event)"
     ></pagination-controls>
   </div>
 </section>

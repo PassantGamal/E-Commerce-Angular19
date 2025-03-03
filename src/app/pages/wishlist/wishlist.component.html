@@ -1,9 +1,9 @@
 <section class="z-20 sticky">
-  @if(wishList.length>0){
+  @if(wishList().length>0){
   <div
     class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-5 gap-y-10"
   >
-    @for (prod of wishList; track $index) {
+    @for (prod of wishList(); track $index) {
     <div class="card bg-white rounded-md overflow-hidden shadow relative">
       <div
         class="absolute top-2 right-2 z-10 cursor-pointer"

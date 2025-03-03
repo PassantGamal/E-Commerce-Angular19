@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ICart } from '../../shared/interfaces/icart';
 import { CurrencyPipe } from '@angular/common';
@@ -15,7 +21,7 @@ export class CartComponent implements OnInit {
   cartDetails: ICart = {} as ICart;
   private readonly _CartService = inject(CartService);
   private readonly _ToastrService = inject(ToastrService);
-  paymentMethod: string = '';
+  paymentMethod: WritableSignal<string> = signal('');
   ngOnInit(): void {
     this.getCartData();
   }

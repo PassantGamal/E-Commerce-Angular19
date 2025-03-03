@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { ProductsService } from '../../core/services/products/products.service';
@@ -46,7 +52,7 @@ export class DetailsComponent implements OnInit {
   private readonly _ProductsService = inject(ProductsService);
 
   productDetails: IProduct | null = null;
-  imgsrc: string = '';
+  imgsrc: WritableSignal<string> = signal('');
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe({
       next: (p) => {
@@ -55,14 +61,14 @@ export class DetailsComponent implements OnInit {
           next: (res) => {
             console.log(res.data);
             this.productDetails = res.data;
-            this.imgsrc = this.productDetails?.imageCover!;
+            this.imgsrc.set(this.productDetails?.imageCover!);
           },
         });
       },
     });
   }
   imgs(det: string): void {
-    this.imgsrc = det;
+    this.imgsrc.set(det);
   }
   addToCart(id: string): void {
     this._CartService.addProductToCart(id).subscribe({

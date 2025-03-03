@@ -3,7 +3,13 @@ import { TermtextPipe } from './../../shared/pipes/termtext.pipe';
 import { CategoriesService } from './../../core/services/categories/categories.service';
 import { ProductsService } from '../../core/services/products/products.service';
 import { IProduct } from './../../shared/interfaces/iproduct';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ICategory } from '../../shared/interfaces/icategory';
 import { SliderComponent } from '../slider/slider.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
@@ -64,8 +70,8 @@ export class HomeComponent implements OnInit {
   products: IProduct[] = [];
   categories: ICategory[] = [];
   wishList: IWishlist[] = [];
-  prodId: string = '';
-  text: string = '';
+  prodId: WritableSignal<string> = signal('');
+  text: WritableSignal<string> = signal('');
   ngOnInit(): void {
     this.getProductsData();
     this.getCategoryData();
@@ -110,7 +116,7 @@ export class HomeComponent implements OnInit {
           this.wishList = res.data;
           this._WishlistService.wishNumber.next(res.data.length);
           this.toastrService.success(res.message, 'FreshCart');
-          this.prodId = id;
+          this.prodId.set(id);
         }
       },
     });

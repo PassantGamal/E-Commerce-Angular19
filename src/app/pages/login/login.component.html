@@ -77,22 +77,22 @@
         }
 
         <button [disabled]="isLoading" class="disabled:bg-gray-600">
-          Login @if (isLoading) {
+          Login @if (isLoading()) {
           <span> <i class="fa-solid fa-spin fa-fan"></i> </span>
           }
         </button>
-        @if(isSuccess){
+        @if(isSuccess()){
         <div
           class="flex items-center bg-[#c79794] justify-center p-2 text-sm text-white border border-green-300 rounded-lg dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
           role="alert"
         >
           <span class="sr-only">Info</span>
           <div>
-            <span class="text-2xl text-center pe-2"> {{ isSuccess }}</span>
+            <span class="text-2xl text-center pe-2"> {{ isSuccess() }}</span>
           </div>
           <i class="fa-solid text-2xl fa-face-smile-wink"></i>
         </div>
-        } @if(isError){
+        } @if(isError()){
         <div
           class="flex p-2 mb-2 rounded text-light text-white bg-[#D19C97] dark:bg-gray-800 dark:text-blue-400"
           role="alert"
@@ -111,7 +111,7 @@
           <span class="sr-only">Info</span>
           <div>
             <ul class="mt-1.5 list-disc list-inside">
-              <li>{{ isError }}</li>
+              <li>{{ isError() }}</li>
             </ul>
           </div>
         </div>

@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { emit } from 'process';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -16,11 +15,11 @@ import { Router } from '@angular/router';
   styleUrl: './forgetpassword.component.scss',
 })
 export class ForgetpasswordComponent {
-  step: number = 1;
-  done: string = '';
-  isSuccess: boolean = false;
-  isLoading: boolean = false;
-  isError: boolean = false;
+  step: WritableSignal<number> = signal(1);
+  done: WritableSignal<string> = signal('');
+  isSuccess: WritableSignal<boolean> = signal(false);
+  isLoading: WritableSignal<boolean> = signal(false);
+  isError: WritableSignal<boolean> = signal(false);
   private readonly _FormBuilder = inject(FormBuilder);
   private readonly _Router = inject(Router);
   private readonly _AuthService = inject(AuthService);
@@ -38,65 +37,65 @@ export class ForgetpasswordComponent {
     let emailValue = this.verifyEmail.get('email')?.value;
     this.resetPassword.get('email')?.patchValue(emailValue);
     if (this.verifyEmail.valid) {
-      this.isLoading = true;
-      this.isSuccess = false;
+      this.isLoading.set(true);
+      this.isSuccess.set(false);
 
       this._AuthService.setEmailVerify(this.verifyEmail.value).subscribe({
         next: (res) => {
           console.log(res);
           if (res.statusMsg === 'success') {
-            this.isLoading = false;
-            this.isSuccess = true;
-            this.done = res.message;
+            this.isLoading.set(false);
+            this.isSuccess.set(true);
+            this.done.set(res.message);
             setTimeout(() => {
-              this.step = 2;
-              this.isSuccess = false;
+              this.step.set(2);
+              this.isSuccess.set(false);
             }, 1500);
           }
         },
         error: (err) => {
           console.log(err);
-          this.isLoading = true;
-          this.isSuccess = false;
+          this.isLoading.set(true);
+          this.isSuccess.set(false);
         },
       });
     }
   }
   verifyCodeSubmit(): void {
-    this.isSuccess = false;
+    this.isSuccess.set(false);
     if (this.verifyCode.valid) {
-      this.isLoading = true;
-      this.isSuccess = false;
+      this.isLoading.set(true);
+      this.isSuccess.set(false);
       this._AuthService.setCodeVerify(this.verifyCode.value).subscribe({
         next: (res) => {
           console.log(res);
           if (res.status === 'Success') {
-            this.isLoading = false;
-            this.isSuccess = true;
+            this.isLoading.set(false);
+            this.isSuccess.set(true);
             setTimeout(() => {
-              this.step = 3;
-              this.isSuccess = false;
+              this.step.set(3);
+              this.isSuccess.set(false);
             }, 500);
           }
         },
         error: (err) => {
-          this.isLoading = true;
-          this.isSuccess = false;
+          this.isLoading.set(true);
+          this.isSuccess.set(false);
           console.log(err);
         },
       });
     }
   }
   resetPasswordSubmit(): void {
-    this.isSuccess = false;
+    this.isSuccess.set(false);
     if (this.resetPassword.valid) {
-      this.isLoading = true;
-      this.isSuccess = false;
+      this.isLoading.set(true);
+      this.isSuccess.set(false);
       this._AuthService.setResetPass(this.resetPassword.value).subscribe({
         next: (res) => {
           console.log(res);
-          this.isLoading = false;
-          this.isSuccess = true;
+          this.isLoading.set(false);
+          this.isSuccess.set(true);
           setTimeout(() => {
             localStorage.setItem('userToken', res.token);
             this._AuthService.saveUserData();
@@ -104,8 +103,8 @@ export class ForgetpasswordComponent {
           }, 500);
         },
         error: (err) => {
-          this.isLoading = true;
-          this.isSuccess = false;
+          this.isLoading.set(true);
+          this.isSuccess.set(false);
           console.log(err);
         },
       });
