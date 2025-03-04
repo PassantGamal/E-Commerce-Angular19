@@ -25,17 +25,13 @@ export class AuthService {
     );
   }
   saveUserData(): void {
-    if (
-      localStorage.getItem('userToken') !== null &&
-      localStorage.getItem('token') !== null
-    ) {
+    if (localStorage.getItem('userToken') !== null) {
       this.userData = jwtDecode(localStorage.getItem('userToken')!);
-      this.userData = jwtDecode(localStorage.getItem('token')!);
     }
   }
   logout(): void {
     localStorage.removeItem('userToken');
-    localStorage.removeItem('token');
+
     this.userData = null;
     this._Router.navigate(['/login']);
   }
