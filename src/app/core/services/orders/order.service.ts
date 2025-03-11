@@ -16,7 +16,7 @@ export class OrderService {
 
   checkoutPayment(id: string, data: object): Observable<any> {
     return this._HttpClient.post(
-      `${environment.baseUrl}/api/v1/orders/checkout-session/${id}?url=http://localhost:4200`,
+      `${environment.baseUrl}/api/v1/orders/checkout-session/${id}?url=https://e-commerce-zeta-ten-18.vercel.app/`,
       {
         shippingAddress: data,
       }
