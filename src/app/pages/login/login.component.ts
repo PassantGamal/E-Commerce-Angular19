@@ -19,7 +19,6 @@ import { take } from 'rxjs';
 export class LoginComponent {
   isError: WritableSignal<string> = signal('');
   isSuccess: WritableSignal<string> = signal('');
-  isLoading: WritableSignal<boolean> = signal(false);
 
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -34,7 +33,6 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.login.valid) {
-      this.isLoading.set(true);
       this.authService.sendLoginForm(this.login.value).subscribe({
         next: (res) => {
           if (res.message === 'success') {
@@ -42,7 +40,7 @@ export class LoginComponent {
             this.authService.saveUserData();
             this.isSuccess.set(res.message);
             this.isError.set('');
-            this.isLoading.set(false);
+
             setTimeout(() => {
               this.router.navigate(['/home']);
             }, 500);
@@ -51,10 +49,8 @@ export class LoginComponent {
         error: (err) => {
           this.isError.set(err.error.message);
           this.isSuccess.set('');
-          this.isLoading.set(false);
 
           this.login.statusChanges.pipe(take(1)).subscribe((status) => {
-            this.isLoading.set(status === 'INVALID');
             this.isError.set('');
           });
         },

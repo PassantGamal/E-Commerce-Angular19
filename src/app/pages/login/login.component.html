@@ -76,11 +76,7 @@
         </div>
         }
 
-        <button [disabled]="isLoading" class="disabled:bg-gray-600">
-          Login @if (isLoading()) {
-          <span> <i class="fa-solid fa-spin fa-fan"></i> </span>
-          }
-        </button>
+        <button class="disabled:bg-gray-600">Login</button>
         @if(isSuccess()){
         <div
           class="flex items-center bg-[#c79794] justify-center p-2 text-sm text-white border border-green-300 rounded-lg dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
